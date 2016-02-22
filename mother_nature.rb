@@ -1,7 +1,23 @@
 require 'pry'
 require 'pry-nav'
 
-class Cell < Struct.new(:x, :y)
+class Cell
+  attr_reader :x, :y
+  attr_accessor :alive
+
+  def initialize(x, y, alive=true)
+    @x = x
+    @y = y
+    @alive = alive
+  end
+
+  def alive?
+    @alive
+  end
+
+  def dead?
+    !alive?
+  end
 end
 
 class MotherNature
@@ -21,7 +37,10 @@ class MotherNature
   end
 
   def update_grid!
-    @cells.each { |c| @grid[c.x][c.y] = c }
+    @cells.each do |cell|
+      cell.alive = true
+      @grid[cell.x][cell.y] = cell
+    end
   end
 
   def clear_grid!
@@ -38,9 +57,9 @@ class MotherNature
     @cells.each do |cell|
       checked_cache[cell.x][cell.y] = true
 
-      potential_neighbors_of(cell).each do |neighbor|
+      neighbors_of(cell).each do |neighbor|
         unless checked_cache[neighbor.x][neighbor.y]
-          new_cells << neighbor if neighbor_count_of(neighbor) == 3
+          new_cells << neighbor if born?(neighbor)
         end
         checked_cache[neighbor.x][neighbor.y] = true
       end
@@ -56,8 +75,12 @@ class MotherNature
     count == 2 || count == 3
   end
 
+  def born?(cell)
+    neighbor_count_of(cell) == 3
+  end
+
   def neighbor_count_of(cell)
-    neighbors_of(cell).inject(0) { |sum, neighbor| sum += neighbor ? 1 : 0 } || 0
+    neighbors_of(cell).inject(0) { |sum, neighbor| sum += neighbor.alive? ? 1 : 0 }
   end
 
   def neighbors_of(cell)
@@ -68,48 +91,35 @@ class MotherNature
     ]
   end
 
-  def potential_neighbors_of(cell)
-    [
-      top_left(cell)      || Cell.new(cell.x-1, cell.y-1),
-      top_middle(cell)    || Cell.new(cell.x,   cell.y-1),
-      top_right(cell)     || Cell.new(cell.x+1, cell.y-1),
-      middle_left(cell)   || Cell.new(cell.x-1, cell.y  ),
-      middle_right(cell)  || Cell.new(cell.x+1, cell.y  ),
-      bottom_left(cell)   || Cell.new(cell.x-1, cell.y+1),
-      bottom_middle(cell) || Cell.new(cell.x,   cell.y+1),
-      bottom_right(cell)  || Cell.new(cell.x+1, cell.y+1),
-    ]
-  end
-
   def top_left(cell)
-    @grid[cell.x-1][cell.y-1]
+    @grid[cell.x-1][cell.y-1] || Cell.new(cell.x-1, cell.y-1, false)
   end
 
   def top_middle(cell)
-    @grid[cell.x][cell.y-1]
+    @grid[cell.x][cell.y-1] || Cell.new(cell.x, cell.y-1, false)
   end
 
   def top_right(cell)
-    @grid[cell.x+1][cell.y-1]
+    @grid[cell.x+1][cell.y-1] || Cell.new(cell.x+1, cell.y-1, false)
   end
 
   def middle_left(cell)
-    @grid[cell.x-1][cell.y]
+    @grid[cell.x-1][cell.y] || Cell.new(cell.x-1, cell.y, false)
   end
 
   def middle_right(cell)
-    @grid[cell.x+1][cell.y]
+    @grid[cell.x+1][cell.y] || Cell.new(cell.x+1, cell.y, false)
   end
 
   def bottom_left(cell)
-    @grid[cell.x-1][cell.y+1]
+    @grid[cell.x-1][cell.y+1] || Cell.new(cell.x-1, cell.y+1, false)
   end
 
   def bottom_middle(cell)
-    @grid[cell.x][cell.y+1]
+    @grid[cell.x][cell.y+1] || Cell.new(cell.x, cell.y+1, false)
   end
 
   def bottom_right(cell)
-    @grid[cell.x+1][cell.y+1]
+    @grid[cell.x+1][cell.y+1] || Cell.new(cell.x+1, cell.y+1, false)
   end
 end
