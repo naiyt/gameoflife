@@ -80,41 +80,14 @@ class MotherNature
 
   def neighbors_of(cell)
     [
-      top_left(cell),    top_middle(cell),    top_right(cell),
-      middle_left(cell),                      middle_right(cell),
-      bottom_left(cell), bottom_middle(cell), bottom_right(cell)
+      cell_at(cell.x-1, cell.y-1),    cell_at(cell.x, cell.y-1),    cell_at(cell.x+1, cell.y-1),
+      cell_at(cell.x-1, cell.y),                                    cell_at(cell.x+1, cell.y),
+      cell_at(cell.x-1, cell.y+1),    cell_at(cell.x, cell.y+1),    cell_at(cell.x+1, cell.y+1)
     ]
   end
 
-  def top_left(cell)
-    @grid[cell.x-1][cell.y-1] || Cell.new(cell.x-1, cell.y-1, false)
-  end
-
-  def top_middle(cell)
-    @grid[cell.x][cell.y-1] || Cell.new(cell.x, cell.y-1, false)
-  end
-
-  def top_right(cell)
-    @grid[cell.x+1][cell.y-1] || Cell.new(cell.x+1, cell.y-1, false)
-  end
-
-  def middle_left(cell)
-    @grid[cell.x-1][cell.y] || Cell.new(cell.x-1, cell.y, false)
-  end
-
-  def middle_right(cell)
-    @grid[cell.x+1][cell.y] || Cell.new(cell.x+1, cell.y, false)
-  end
-
-  def bottom_left(cell)
-    @grid[cell.x-1][cell.y+1] || Cell.new(cell.x-1, cell.y+1, false)
-  end
-
-  def bottom_middle(cell)
-    @grid[cell.x][cell.y+1] || Cell.new(cell.x, cell.y+1, false)
-  end
-
-  def bottom_right(cell)
-    @grid[cell.x+1][cell.y+1] || Cell.new(cell.x+1, cell.y+1, false)
+  def cell_at(x, y)
+    return @grid[x][y] || Cell.new(x, y, false) if @grid[x]
+    return Cell.new(x, y, false)
   end
 end
