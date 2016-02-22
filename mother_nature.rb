@@ -40,7 +40,7 @@ class MotherNature
 
       potential_neighbors_of(cell).each do |neighbor|
         unless checked_cache[neighbor.x][neighbor.y]
-          new_cells << Cell.new(neighbor.x, neighbor.y) if neighbor_count_of(neighbor) == 3
+          new_cells << neighbor if neighbor_count_of(neighbor) == 3
         end
         checked_cache[neighbor.x][neighbor.y] = true
       end
