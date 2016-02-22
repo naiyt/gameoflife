@@ -1,7 +1,6 @@
 require_relative 'mother_nature'
 
-
-initial_cells = [Cell.new(4, 4)]
+initial_cells = [Cell.new(5, 5), Cell.new(4, 5), Cell.new(3, 5)]
 
 nature = MotherNature.new(10, initial_cells)
 

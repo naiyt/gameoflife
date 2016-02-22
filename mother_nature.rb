@@ -21,19 +21,20 @@ class MotherNature
         new_cells << Cell.new(neighbor.x, neighbor.y) if neighbor_count_of(neighbor) == 3
       end
 
-      if survived?(cell)
-        @new_cells << cell
-      else
-        @grid[cell.x][cell.y] = nil
-      end
+      new_cells << cell if survived?(cell)
     end
 
+    clear_grid!
     @cells = new_cells
     update_grid!
   end
 
   def update_grid!
     @cells.each { |c| @grid[c.x][c.y] = c }
+  end
+
+  def clear_grid!
+    @cells.each { |c| grid[c.x][c.y] = nil }
   end
 
   private
