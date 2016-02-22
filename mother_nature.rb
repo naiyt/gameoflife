@@ -5,7 +5,7 @@ class Cell < Struct.new(:x, :y)
 end
 
 class MotherNature
-  attr_reader :grid
+  attr_reader :grid, :cells
 
   def initialize(grid_size, initial_cells)
     @grid  = Array.new(grid_size) { Array.new(grid_size) }
