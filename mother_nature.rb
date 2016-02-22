@@ -1,14 +1,12 @@
-require 'json'
-
 class Cell < Struct.new(:x, :y)
 end
 
 class MotherNature
   attr_reader :grid
 
-  def initialize(grid_size)
+  def initialize(grid_size, initial_cells)
     @grid  = Array.new(grid_size) { Array.new(grid_size) }
-    @cells = create_cells
+    @cells = initial_cells
     @cells.each { |c| @grid[c.x][c.y] = c }
   end
 
@@ -16,7 +14,7 @@ class MotherNature
     new_cells = []
 
     @cells.each do |cell|
-      if of_the_fittest?(cell)
+      if survived?(cell)
         @new_cells << cell
       else
         @grid[cell.x][cell.y] = nil
@@ -28,11 +26,7 @@ class MotherNature
 
   private
 
-  def create_cells
-    [Cell.new(4,5), Cell.new(5,6)]
-  end
-
-  def of_the_fittest?(cell)
+  def survived?(cell)
     count = neighbor_count_of(cell)
     count == 2 || count == 3
   end
