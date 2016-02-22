@@ -1,6 +1,3 @@
-require 'pry'
-require 'pry-nav'
-
 class Cell
   attr_reader :x, :y
   attr_accessor :alive
@@ -58,9 +55,7 @@ class MotherNature
       checked_cache[cell.x][cell.y] = true
 
       neighbors_of(cell).each do |neighbor|
-        unless checked_cache[neighbor.x][neighbor.y]
-          new_cells << neighbor if born?(neighbor)
-        end
+          new_cells << neighbor if born?(neighbor) && !checked_cache[neighbor.x][neighbor.y]
         checked_cache[neighbor.x][neighbor.y] = true
       end
 
