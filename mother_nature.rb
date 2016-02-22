@@ -14,16 +14,7 @@ class MotherNature
   end
 
   def update_world
-    new_cells = []
-
-    @cells.each do |cell|
-      potential_neighbors_of(cell).each do |neighbor|
-        new_cells << Cell.new(neighbor.x, neighbor.y) if neighbor_count_of(neighbor) == 3
-      end
-
-      new_cells << cell if survived?(cell)
-    end
-
+    new_cells = generate_new_cells
     clear_grid!
     @cells = new_cells
     update_grid!
@@ -38,6 +29,27 @@ class MotherNature
   end
 
   private
+
+  def generate_new_cells
+    checked_cache = Array.new(@grid.length) { Array.new(@grid.length) { false } }
+
+    new_cells = []
+
+    @cells.each do |cell|
+      checked_cache[cell.x][cell.y] = true
+
+      potential_neighbors_of(cell).each do |neighbor|
+        unless checked_cache[neighbor.x][neighbor.y]
+          new_cells << Cell.new(neighbor.x, neighbor.y) if neighbor_count_of(neighbor) == 3
+        end
+        checked_cache[neighbor.x][neighbor.y] = true
+      end
+
+      new_cells << cell if survived?(cell)
+    end
+
+    new_cells
+  end
 
   def survived?(cell)
     count = neighbor_count_of(cell)
