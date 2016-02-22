@@ -19,3 +19,8 @@ while true do
   puts "Updating done"
   print_grid(nature.grid)
 end
+
+
+10000.times do
+  nature.update_world
+end
