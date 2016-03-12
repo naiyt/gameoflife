@@ -13,13 +13,13 @@ def print_grid(grid)
   end
 end
 
-# while true do
-#   puts "*" * 20
-#   puts "NEW GENERATION"
-#   nature.update_world
-#   puts "Updating done"
-#   print_grid(nature.grid)
-# end
+while true do
+  puts "*" * 20
+  puts "NEW GENERATION"
+  nature.update_world
+  puts "Updating done"
+  print_grid(nature.grid)
+end
 
 
 10.times do
