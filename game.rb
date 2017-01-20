@@ -3,6 +3,8 @@ require 'yaml'
 require 'pry'
 require_relative 'game_of_life'
 
+GAME_UPDATE_SPEED = 0.1
+
 class GameWindow < Gosu::Window
   def initialize(pattern)
     super(900, 900)
@@ -60,7 +62,7 @@ class GameWindow < Gosu::Window
   end
 
   def next_gen?
-    if time_since_last_generation > 0.5
+    if time_since_last_generation > GAME_UPDATE_SPEED
       @last_time = Time.now
       true
     end
