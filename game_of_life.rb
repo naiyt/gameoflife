@@ -1,14 +1,14 @@
 class GameOfLife
-  attr_reader :grid, :cells
+  attr_reader :grid, :living_cells
 
   def initialize(grid_size, initial_cells)
     @grid  = Array.new(grid_size) { Array.new(grid_size) }
-    @cells = initial_cells
+    @living_cells = initial_cells
     init_grid(true)
   end
 
   def init_grid(state)
-    @cells.each { |x, y| @grid[x][y] = state }
+    @living_cells.each { |x, y| @grid[x][y] = state }
   end
 
   # - Generate a list of co-ordinates for new cells
@@ -17,7 +17,7 @@ class GameOfLife
   def update_world
     new_cells = generate_new_cells
     init_grid(false)
-    @cells = new_cells
+    @living_cells = new_cells
     init_grid(true)
   end
 
@@ -31,7 +31,7 @@ class GameOfLife
     # For each of a cell's neighbors:
     #   - Check to see if it can be brought to life (has to have 3 living neighbors)
     # Add a cell to new cells if it passes the conditions
-    @cells.each do |cell|
+    @living_cells.each do |cell|
       neighbors_of(*cell).each do |neighbor|
         if !visited[neighbor] && born?(neighbor)
           visited[neighbor] = true
