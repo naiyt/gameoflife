@@ -16,10 +16,9 @@ class GameWindow < Gosu::Window
 
   def update
     if next_gen?
-      puts "*" * 20
+      puts "*" * 14
       puts "NEW GENERATION"
       @mother_nature.update_world
-      puts "Updating done"
       print_grid
     end
   end

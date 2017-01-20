@@ -55,7 +55,7 @@ class MotherNature
       checked_cache[cell.x][cell.y] = true
 
       neighbors_of(cell).each do |neighbor|
-          new_cells << neighbor if born?(neighbor) && !checked_cache[neighbor.x][neighbor.y]
+        new_cells << neighbor if born?(neighbor) && !checked_cache[neighbor.x][neighbor.y]
         checked_cache[neighbor.x][neighbor.y] = true
       end
 
