@@ -1,16 +1,22 @@
 require 'gosu'
+require 'yaml'
+require 'pry'
 require_relative 'mother_nature'
 
-
-INITIAL_CELLS = [[5, 5], [4, 5], [3, 5],
-                 [5, 4],
-                 [4, 3]]
-
 class GameWindow < Gosu::Window
-  def initialize
+  def initialize(pattern)
     super(900, 900)
+
+    patterns = YAML.load_file('patterns.yml')
+
+    if patterns[pattern.to_s]
+      initial_cells = patterns[pattern.to_s].map { |pair| pair.values }
+    else
+      raise "Pattern `#{pattern}` does not exist"
+    end
+
     self.caption = 'The Game of Life'
-    @mother_nature = MotherNature.new(100, INITIAL_CELLS)
+    @mother_nature = MotherNature.new(100, initial_cells)
     @last_time = Time.now
   end
 
@@ -65,5 +71,5 @@ class GameWindow < Gosu::Window
   end
 end
 
-window = GameWindow.new
+window = ARGV.length == 0 ? GameWindow.new(:glider) : GameWindow.new(ARGV[0])
 window.show
