@@ -1,7 +1,7 @@
 require 'gosu'
 require 'yaml'
 require 'pry'
-require_relative 'mother_nature'
+require_relative 'game_of_life'
 
 class GameWindow < Gosu::Window
   def initialize(pattern)
@@ -16,7 +16,7 @@ class GameWindow < Gosu::Window
     end
 
     self.caption = 'The Game of Life'
-    @mother_nature = MotherNature.new(100, initial_cells)
+    @game_of_life = GameOfLife.new(100, initial_cells)
     @last_time = Time.now
   end
 
@@ -24,7 +24,7 @@ class GameWindow < Gosu::Window
     if next_gen?
       puts "*" * 14
       puts "NEW GENERATION"
-      @mother_nature.update_world
+      @game_of_life.update_world
       print_grid
     end
   end
@@ -52,7 +52,7 @@ class GameWindow < Gosu::Window
   end
 
   def grid
-    @mother_nature.grid
+    @game_of_life.grid
   end
 
   def time_since_last_generation

@@ -1,4 +1,4 @@
-class MotherNature
+class GameOfLife
   attr_reader :grid, :cells
 
   def initialize(grid_size, initial_cells)

@@ -1,9 +1,9 @@
-require_relative 'mother_nature'
+require_relative 'game_of_life'
 
 initial_cells = [[5, 5], [4, 5], [3, 5],
                  [20, 5], [21, 5], [22, 5]]
 
-nature = MotherNature.new(300, initial_cells)
+nature = GameOfLife.new(300, initial_cells)
 
 def print_grid(grid)
   grid.length.times do |x|
