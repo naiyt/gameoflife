@@ -3,7 +3,7 @@ require 'yaml'
 require 'pry'
 require_relative 'game_of_life'
 
-GAME_UPDATE_SPEED = 0.1
+GAME_UPDATE_SPEED = 0.09
 
 class GameWindow < Gosu::Window
   def initialize(pattern)
@@ -18,7 +18,7 @@ class GameWindow < Gosu::Window
     end
 
     self.caption = 'The Game of Life'
-    @game_of_life = GameOfLife.new(100, initial_cells)
+    @game_of_life = GameOfLife.new(45, initial_cells)
     @last_time = Time.now
   end
 

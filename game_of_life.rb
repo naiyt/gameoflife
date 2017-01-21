@@ -67,17 +67,15 @@ class GameOfLife
     # Top left,     Top middle,    Top right
     # Middle left,                 Middle right
     # Bottom left,  Bottom middle, Bottom right
-    all_possible = [
+    coords = [
       [x-1, y-1],    [x, y-1],    [x+1, y-1],
       [x-1,   y],                 [x+1,   y],
       [x-1, y+1],    [x, y+1],    [x+1, y+1],
     ]
 
-    all_possible.select { |cell| within_range?(*cell) }
-  end
-
-  # Make sure we don't go outside of the grid
-  def within_range?(x, y)
-    x >= 0 && x < @grid.length && y >= 0 && y < @grid.length
+    # Wrap around
+    coords.map do |coord|
+      [coord[0] % @grid.length, coord[1] % @grid.length]
+    end
   end
 end
